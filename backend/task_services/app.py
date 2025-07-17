@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import sqlite3
 import datetime
-import jwt
+import jwt # type: ignore
 from functools import wraps
 import datetime
 
@@ -121,6 +121,49 @@ def get_tasks():
         })
     except sqlite3.Error as e:
         return jsonify({"message": f"Error en la base de datos: {str(e)}", "status": "error"}), 500
+
+# Ruta para obtener una tarea por Usuario
+@app.route('/Usertasks/<string:created_by>', methods=['GET'])
+@token_required
+def get_task_created_by(created_by):
+    """Obtiene todas las tareas creadas por un usuario específico."""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT id, name, description, created_at, dead_line, status, is_alive, created_by FROM tasks WHERE created_by = ?",
+            (created_by,)
+        )
+        tasks = cursor.fetchall()
+        conn.close()
+        
+        if not tasks:
+            return jsonify({
+                "statusCode": 404,
+                "intData": {
+                    "message": "No se encontraron tareas para este usuario.",
+                    "data": []
+                }
+            })
+        
+        return jsonify({
+            "statusCode": 200,
+            "intData": {
+                "message": "Tareas recuperadas con éxito",
+                "data": [{
+                    "id": task["id"],
+                    "name": task["name"],
+                    "description": task["description"],
+                    "created_at": task["created_at"],
+                    "dead_line": task["dead_line"],
+                    "status": task["status"],
+                    "is_alive": task["is_alive"],
+                    "created_by": task["created_by"]
+                } for task in tasks]
+            }
+        })
+    except sqlite3.Error as e:
+        return jsonify({"message": f"Error en la base de datos: {str(e)}", "status": "error"}),
 
 # Ruta para obtener una tarea por ID
 @app.route('/tasks/<int:task_id>', methods=['GET'])

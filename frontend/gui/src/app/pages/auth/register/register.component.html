@@ -1,46 +1,72 @@
-<div class="register-container">
-  <p-toast position="top-center"></p-toast>
-  <p-card [style]="{'max-width': '400px', 'margin': '2rem auto', 'border-radius': '12px', 'box-shadow': '0 4px 12px rgba(0,0,0,0.15)'}">
+<div class="login-container">
+  <p-toast position="top-right"></p-toast>
+  <p-card [style]="cardStyles">
     <ng-template #header>
-      <div class="header-container" style="text-align: center; padding: 1.5rem 0;">
-        <i class="pi pi-user-plus" style="font-size: 2.5rem; color: #3b82f6;"></i>
+      <div class="header-circle-container">
+        <div class="user-icon-circle">
+          <i class="pi pi-user user-icon"></i>
+        </div>
       </div>
     </ng-template>
 
     <ng-template #title>
-      <div class="register-title" style="text-align: center; font-size: 1.8rem; font-weight: 600; color: #1f2937;">Crear Cuenta</div>
+      <div class="login-title">Registro</div>
     </ng-template>
 
-    <div class="form-fields" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 1rem;">
-      <div class="field">
-        <label for="username" class="label" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Usuario</label>
-        <input pInputText id="username" [(ngModel)]="username" placeholder="Ingresa tu usuario" style="width: 100%; border-radius: 8px;" />
-      </div>
+    <div class="form-fields" *ngIf="!qrCode">
+      <div class="label">Nombre de usuario</div>
+      <p-inputgroup>
+        <p-inputgroup-addon>
+          <i class="pi pi-user"></i>
+        </p-inputgroup-addon>
+        <input pInputText [(ngModel)]="username" placeholder="Nombre de usuario" />
+      </p-inputgroup>
 
-      <div class="field">
-        <label for="password" class="label" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Contraseña</label>
-        <input pInputText id="password" type="password" [(ngModel)]="password" placeholder="Ingresa tu contraseña" style="width: 100%; border-radius: 8px;" />
-      </div>
+      <div class="label">Contraseña</div>
+      <p-inputgroup>
+        <p-inputgroup-addon>
+          <i class="pi pi-lock"></i>
+        </p-inputgroup-addon>
+        <input pInputText type="password" [(ngModel)]="password" placeholder="Contraseña" />
+      </p-inputgroup>
 
-      <div class="field">
-        <label for="confirmPassword" class="label" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Confirmar Contraseña</label>
-        <input pInputText id="confirmPassword" type="password" [(ngModel)]="confirmPassword" placeholder="Confirma tu contraseña" style="width: 100%; border-radius: 8px;" />
-      </div>
+      <div class="label">Confirmar Contraseña</div>
+      <p-inputgroup>
+        <p-inputgroup-addon>
+          <i class="pi pi-lock"></i>
+        </p-inputgroup-addon>
+        <input pInputText type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar Contraseña" />
+      </p-inputgroup>
+    </div>
+
+    <div class="form-fields" *ngIf="qrCode">
+      <div class="label">Escanea este código QR con tu app de autenticación </div>
+      <img [src]="qrCode" alt="Código QR para MFA" style="max-width: 200px; margin: 0 auto; display: block;" />
+      <div class="label">O ingresa este secreto manualmente: {{ secret }}</div>
     </div>
 
     <ng-template #footer>
-      <div class="button-container" style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem;">
+      <div class="login-buttons">
         <p-button
-          (click)="register()"
-          label="Crear Cuenta"
-          styleClass="p-button-rounded p-button-success"
-          [style]="{'width': '100%', 'background-color': '#3b82f6', 'border': 'none'}"
+          label="Iniciar Sesión"
+          severity="secondary"
+          [outlined]="true"
+          [ngClass]="'w-full p-button-outlined'"
+          routerLink="/auth/login"
         ></p-button>
         <p-button
-          label="Ya tengo cuenta"
-          styleClass="p-button-text p-button-secondary"
+          *ngIf="!qrCode"
+          (click)="register()"
+          label="Registrarse"
+          severity="info"
+          [ngClass]="'w-full'"
+        ></p-button>
+        <p-button
+          *ngIf="qrCode"
+          label="Continuar"
+          severity="info"
+          [ngClass]="'w-full'"
           routerLink="/auth/login"
-          [style]="{'width': '100%', 'color': '#3b82f6'}"
         ></p-button>
       </div>
     </ng-template>

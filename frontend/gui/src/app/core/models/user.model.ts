@@ -5,7 +5,13 @@ export interface Usuario {
 
 export interface RespuestaAutenticacion {
   intData?: {
-    token: string;
+    token?: string;
+    message?: string;
+    data?: {
+      qr_code?: string;
+      secret?: string;
+    };
+    two_factor_enabled?: boolean;
   };
-  // Agrega otros campos de respuesta potenciales según sea necesario
+  statusCode?: number;
 }

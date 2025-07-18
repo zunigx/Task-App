@@ -1,1 +1,18 @@
-<p>task-list works!</p>
+<app-header [headerTitle]="'Tareas Prueba'"></app-header>
+
+<div class="kanban-board">
+  <!-- Paneles para cada columna -->
+  <p-panel *ngFor="let column of kanbanColumns" [header]="column.header" class="kanban-column" [style]="getColumnColor(column.status)">
+    <div *ngFor="let task of column.tasks">
+      <p-card class="kanban-card" [ngStyle]="{'background-color': getCardColor(task.status)}">
+        <h4 class="task-title">{{ task.name }}</h4>
+        <div class="task-content">
+          <p class="task-description">{{ task.description }}</p>
+          <small class="task-deadline">Creación: {{ task.created_at }}</small>
+          <br>
+          <small class="task-deadline">Fecha límite: {{ task.dead_line }}</small>
+        </div>
+      </p-card>
+    </div>
+  </p-panel>
+</div>

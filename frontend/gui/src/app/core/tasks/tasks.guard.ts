@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { CanActivateFn, Router } from "@angular/router";
 
-export const AuthGuard: CanActivateFn = (route, state) => {
+export const TasksGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   if(authService.isLoggedIn()){
-    return true;
+    return  router.navigate(['/tasks/task-list']);
   }else{
-    return router.navigate(['/auth/login']);
+    return true;
   }
 };

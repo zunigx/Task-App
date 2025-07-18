@@ -1,0 +1,11 @@
+# Ignorar entorno virtual de Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+
+# Ignorar logs si quieres
+backend/logs/
+
+# Ignorar archivos temporales o específicos
+*.log
+*.pid

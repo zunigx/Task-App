@@ -1,4 +1,3 @@
-// app/register/register.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,8 +8,9 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { DividerModule } from 'primeng/divider';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service'; // Ajusta la ruta según tu estructura
-import { Usuario, RespuestaAutenticacion } from '../../../core/models/user.model'; // Ajusta la ruta según tu estructura
+import { AuthService } from '../../../core/auth/auth.service';
+import { Usuario, RespuestaAutenticacion } from '../../../core/models/user.model';
+import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
@@ -27,7 +27,8 @@ import { MessageService } from 'primeng/api';
     InputGroupAddonModule,
     DividerModule,
     RouterModule,
-    ToastModule
+    ToastModule,
+    PasswordModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -37,12 +38,15 @@ export class RegisterComponent {
   username: string = '';
   password: string = '';
   confirmPassword: string = '';
+  qrCode: string = '';
+  secret: string = '';
 
   cardStyles = {
     width: '25rem',
     overflow: 'hidden',
     borderRadius: '1rem',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 4px 12px rgb(101, 169, 225)',
+    background: 'rgba(50, 81, 81, 0.8)',
     textAlign: 'center',
     padding: '1.5rem'
   };
@@ -55,24 +59,30 @@ export class RegisterComponent {
 
   register() {
     if (!this.username || !this.password || !this.confirmPassword) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Completa todos los campos' });
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Completa todos los campos' });
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden' });
+      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Las contraseñas no coinciden' });
       return;
     }
 
-    const userData: Usuario = { username: this.username, password: this.password };
+    const userData: Usuario = { username: this.username, password: this.password};
     this.authService.register(userData).subscribe({
       next: (response: RespuestaAutenticacion) => {
         console.log('Registro exitoso', response);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario registrado exitosamente' });
+        if (response.intData?.data?.qr_code) {
+          this.qrCode = response.intData.data.qr_code;
+          this.secret = response.intData.data.secret || '';
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario registrado. Escanea el código QR con tu app de autenticación.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.intData?.message || 'Error al registrar el usuario' });
+        }
       },
       error: (err) => {
         console.error('Error en el registro:', err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al registrar el usuario' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.intData?.message || 'Error al registrar el usuario' });
       }
     });
   }

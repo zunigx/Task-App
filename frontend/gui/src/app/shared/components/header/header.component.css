@@ -1,0 +1,46 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #212121; /* Fondo oscuro */
+  color: #ffffff; /* Texto blanco */
+  border-bottom: 1px solid #333; /* Línea divisoria */
+  border-radius: 8px 8px 0 0; /* Bordes redondeados en la parte superior */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  gap: 0.5rem; /* Espacio entre botones */
+}
+
+.p-button {
+  margin-left: 0; /* Elimina margen izquierdo del botón individual */
+  padding: 0.5rem;
+  min-width: 2.5rem;
+}
+
+.p-button-secondary {
+  background-color: #0288D1; /* Azul para el botón de agregar */
+  border: none;
+  color: #ffffff;
+}
+
+.p-button-secondary:hover {
+  background-color: #01579B; /* Azul más oscuro al pasar el mouse */
+}
+
+.p-button-danger {
+  background-color: #d32f2f; /* Rojo para cerrar sesión */
+  border: none;
+  color: #ffffff;
+}
+
+.p-button-danger:hover {
+  background-color: #b71c1c; /* Rojo más oscuro al pasar el mouse */
+}

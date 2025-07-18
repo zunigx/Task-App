@@ -1,20 +1,19 @@
-<div class="login-container">
+<div class="register-container">
   <p-toast position="top-right"></p-toast>
-  <p-card [style]="cardStyles">
-    <ng-template #header>
-      <div class="header-circle-container">
-        <div class="user-icon-circle">
-          <i class="pi pi-user user-icon"></i>
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="register-header-circle">
+        <div class="register-icon-circle">
+          <i class="pi pi-user register-icon"></i>
         </div>
       </div>
     </ng-template>
 
-    <ng-template #title>
-      <div class="login-title">Registro</div>
+    <ng-template pTemplate="title">
+      <div class="register-title">Registro</div>
     </ng-template>
 
-    <div class="form-fields" *ngIf="!qrCode">
-      <div class="label">Nombre de usuario</div>
+    <div class="register-fields" *ngIf="!qrCode">
       <p-inputgroup>
         <p-inputgroup-addon>
           <i class="pi pi-user"></i>
@@ -22,7 +21,6 @@
         <input pInputText [(ngModel)]="username" placeholder="Nombre de usuario" />
       </p-inputgroup>
 
-      <div class="label">Contraseña</div>
       <p-inputgroup>
         <p-inputgroup-addon>
           <i class="pi pi-lock"></i>
@@ -30,7 +28,6 @@
         <input pInputText type="password" [(ngModel)]="password" placeholder="Contraseña" />
       </p-inputgroup>
 
-      <div class="label">Confirmar Contraseña</div>
       <p-inputgroup>
         <p-inputgroup-addon>
           <i class="pi pi-lock"></i>
@@ -39,33 +36,32 @@
       </p-inputgroup>
     </div>
 
-    <div class="form-fields" *ngIf="qrCode">
-      <div class="label">Escanea este código QR con tu app de autenticación </div>
-      <img [src]="qrCode" alt="Código QR para MFA" style="max-width: 200px; margin: 0 auto; display: block;" />
-      <div class="label">O ingresa este secreto manualmente: {{ secret }}</div>
+    <div class="register-fields" *ngIf="qrCode">
+      <div class="register-label">Escanea este código QR con tu app de autenticación</div>
+      <img [src]="qrCode" alt="Código QR para MFA" class="register-qr" />
+      <div class="register-label">O ingresa este secreto manualmente: {{ secret }}</div>
     </div>
 
-    <ng-template #footer>
-      <div class="login-buttons">
+    <ng-template pTemplate="footer">
+      <div class="register-buttons">
         <p-button
           label="Iniciar Sesión"
           severity="secondary"
-          [outlined]="true"
-          [ngClass]="'w-full p-button-outlined'"
+          styleClass="w-full"
           routerLink="/auth/login"
         ></p-button>
         <p-button
           *ngIf="!qrCode"
           (click)="register()"
           label="Registrarse"
-          severity="info"
-          [ngClass]="'w-full'"
+          severity="secondary"
+          styleClass="w-full"
         ></p-button>
         <p-button
           *ngIf="qrCode"
           label="Continuar"
           severity="info"
-          [ngClass]="'w-full'"
+          styleClass="w-full"
           routerLink="/auth/login"
         ></p-button>
       </div>

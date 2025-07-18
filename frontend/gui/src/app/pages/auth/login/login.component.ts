@@ -43,8 +43,8 @@ export class LoginComponent {
     width: '25rem',
     overflow: 'hidden',
     borderRadius: '1rem',
-    boxShadow: '0 4px 12px rgb(101, 169, 225)',
-    background: 'rgba(50, 81, 81, 0.8)',
+    boxShadow: '0 4px 12px rgba(231, 235, 237, 1)',
+    background: 'rgba(55, 66, 66, 0.8)',
     textAlign: 'center',
     padding: '1.5rem'
   };

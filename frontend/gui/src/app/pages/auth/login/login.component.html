@@ -1,7 +1,7 @@
 <div class="login-container">
   <p-toast position="top-right"></p-toast>
   <p-card [style]="cardStyles">
-    <ng-template #header>
+    <ng-template pTemplate="header">
       <div class="header-circle-container">
         <div class="user-icon-circle">
           <i class="pi pi-user user-icon"></i>
@@ -9,7 +9,7 @@
       </div>
     </ng-template>
 
-    <ng-template #title>
+    <ng-template pTemplate="title">
       <div class="login-title">Iniciar Sesión</div>
     </ng-template>
 
@@ -36,19 +36,18 @@
       </p-inputgroup>
     </div>
 
-    <ng-template #footer>
+    <ng-template pTemplate="footer">
       <div class="login-buttons">
         <p-button
           (click)="login()"
           label="Iniciar Sesión"
           severity="secondary"
-          [outlined]="true"
-          [ngClass]="'w-full p-button-outlined'"
+          styleClass="w-full"
         ></p-button>
         <p-button
           label="Registro"
-          severity="info"
-          [ngClass]="'w-full'"
+          severity="secondary"
+          styleClass="w-full"
           routerLink="/auth/register"
         ></p-button>
       </div>

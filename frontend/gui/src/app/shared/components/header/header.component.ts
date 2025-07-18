@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { AuthService } from '../../../core/auth/auth.service'; // Ajusta la ruta según tu estructura
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,16 +13,14 @@ import { AuthService } from '../../../core/auth/auth.service'; // Ajusta la ruta
 export class HeaderComponent {
   @Input() headerTitle: string = '';
 
-  constructor( private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   logout(): void {
     this.authService.logout();
     console.log('Se hizo clic en Cerrar sesión');
-
   }
 
-  addTask() {
-    console.log('Add task clicked');
-    // Implementa la lógica para agregar una tarea aquí
+  addTask(): void {
+    console.log('Agregar tarea clicada');
   }
 }

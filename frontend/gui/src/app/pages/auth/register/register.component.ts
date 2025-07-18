@@ -6,13 +6,11 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { DividerModule } from 'primeng/divider';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
-import { Usuario, RespuestaAutenticacion } from '../../../core/models/user.model';
-import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { Usuario, RespuestaAutenticacion } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -25,10 +23,8 @@ import { MessageService } from 'primeng/api';
     InputTextModule,
     InputGroupModule,
     InputGroupAddonModule,
-    DividerModule,
     RouterModule,
-    ToastModule,
-    PasswordModule
+    ToastModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -45,8 +41,8 @@ export class RegisterComponent {
     width: '25rem',
     overflow: 'hidden',
     borderRadius: '1rem',
-    boxShadow: '0 4px 12px rgb(101, 169, 225)',
-    background: 'rgba(50, 81, 81, 0.8)',
+    boxShadow: '0 4px 12px rgba(231, 235, 237, 1)',
+    background: 'rgba(55, 66, 66, 0.8)',
     textAlign: 'center',
     padding: '1.5rem'
   };
@@ -59,16 +55,16 @@ export class RegisterComponent {
 
   register() {
     if (!this.username || !this.password || !this.confirmPassword) {
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Completa todos los campos' });
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'Completa todos los campos' });
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Las contraseñas no coinciden' });
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'Las contraseñas no coinciden' });
       return;
     }
 
-    const userData: Usuario = { username: this.username, password: this.password};
+    const userData: Usuario = { username: this.username, password: this.password };
     this.authService.register(userData).subscribe({
       next: (response: RespuestaAutenticacion) => {
         console.log('Registro exitoso', response);
